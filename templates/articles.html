@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+        <h3>Makaleler</h3>
+        <hr>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+            <form>
+                {% csrf_token %}
+                <input type="text" class="input-sm" placeholder="Arama Yap" name="keyword">
+                <button class="btn btn-primary" type="submit">Ara</button>
+            </form>
+            <hr>
+        </div>
+    </div>
+</div>
+
+{% if articles %}
+    {% for article in articles %}
+        <div class="row">
+            <div class="col-md-10 offset-md-3">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                        <!-- Post title-->
+                        <a href="{% url 'article:detail' article.id %}"><h2 class="fw-bolder mb-1">{{ article.title }}</h2></a>
+                        <hr>
+                        <!-- Post meta content-->
+                        <div class="text-muted fst-italic mb-2">{{ article.author.username }} tarafından {{ article.created_date }}'da yayınlandı.</div>
+                        <hr>
+                        </header>
+                        <!-- Preview image figure -->
+                        {% if article.article_image and article.article_image.name %}
+                            <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{ article.article_image.url }}" alt="Makale Resmi"></a>
+                        {% endif %}
+                        <!-- Post content-->
+                        <section class="mb-5">
+                            <p>{{ article.content|safe|truncatewords:50 }}</p>
+                        <a style="float:right;" class="btn btn-danger" href="{% url 'article:detail' article.id %}">Devamını Oku</a>
+                        </section>
+                    </article>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+<div class="row">
+    <div class="col-md-10 offset-md-3">
+        <div class="col-lg-8">
+            <div class="alert alert-warning" role="alert">
+                Makale bulunamadı.
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <div class="jumbotron text-center">
+        <h3>YBBLOG'una Hoşgeldiniz!</h3>
+        <p>Burada blog yazılarınızı okuyabilir ve paylaşabilirsiniz.</p>
+    </div>
+
+    <p>
+        {% if request.user.is_authenticated %}
+            {{ request.user.username }} olarak giriş yaptınız.
+        
+        {% else %}
+            Şuan kullanıcı bulunmamaktadır. Lütfen giriş yapınız.
+        {% endif %}
+    
+    
+    </p>
+
+{% endblock %}
